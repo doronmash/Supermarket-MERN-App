@@ -1,19 +1,24 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Toolbar, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { CustomButton } from '../utilsComponents/customButon';
 
 interface HeaderProps {
   userEmail: string;
+  userId: string;
 }
 
-export const Header: React.FC<HeaderProps> = ({ userEmail }) => {
+export const Header: React.FC<HeaderProps> = ({ userEmail, userId }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
     // Perform any logout logic here, such as clearing user data, tokens, etc.
     // Then navigate back to the login page
     navigate('/');
+  };
+
+  const handleHistoryClick = () => {
+    navigate('/grocery-payment-history', { state: { userId } });
   };
 
   return (
@@ -34,7 +39,10 @@ export const Header: React.FC<HeaderProps> = ({ userEmail }) => {
         >
           Welcome, {userEmail}
         </Typography>
-        <CustomButton label="Logout" onClick={handleLogout} />
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <CustomButton label="History" onClick={handleHistoryClick} />
+          <CustomButton label="Logout" onClick={handleLogout} />
+        </Box>
       </Toolbar>
     </AppBar>
   );

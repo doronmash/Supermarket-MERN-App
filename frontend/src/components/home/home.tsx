@@ -4,6 +4,7 @@ import { Box } from '@mui/material';
 import LoginForm from './loginForm';
 import SignupForm from './signupForm';
 import Dashboard from '../dashbord/dashbord';
+import GroceryPaymentHistory from '../dashbord/groceryPaymentHistory';
 
 const Home: React.FC = () => {
   const [isLoginComponent, setIsLoginComponent] = useState(true);
@@ -45,6 +46,7 @@ const Home: React.FC = () => {
           }
         />
         <Route path="/dashboard" element={<DashboardWrapper />} />
+        <Route path="/grocery-payment-history" element={<GroceryPaymentHistory />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
