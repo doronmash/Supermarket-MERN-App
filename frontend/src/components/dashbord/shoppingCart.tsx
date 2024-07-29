@@ -113,13 +113,13 @@ interface CartItem {
 
 interface ShoppingCartProps {
   cartItems: CartItem[];
-  userEmail: String;
+  userName: String;
   userId: String;
   onRemoveFromCart: (item: { name: string; price: number }) => void;
   onPaymentSuccess: () => void;
 }
 
-const ShoppingCart: React.FC<ShoppingCartProps> = ({ cartItems, userEmail, userId, onRemoveFromCart, onPaymentSuccess }) => {
+const ShoppingCart: React.FC<ShoppingCartProps> = ({ cartItems, userName, userId, onRemoveFromCart, onPaymentSuccess }) => {
   const calculateTotalPrice = () => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
@@ -184,7 +184,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ cartItems, userEmail, userI
           <IconButton
             color="primary"
             onClick={handlePayment}
-            disabled={userEmail === 'Guest'}
+            disabled={userName === 'Guest'}
           >
             <PaymentIcon />
           </IconButton>

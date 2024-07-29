@@ -7,8 +7,8 @@ interface CustomButtonProps {
   visible?: boolean; // Made the prop optional
 }
 
-export const CustomButton: FC<CustomButtonProps> = ({ label, onClick, visible = true }): ReactElement | null => {
-  if (!visible) {
+export const CustomButton: FC<CustomButtonProps> = ({ label, onClick, visible = false }): ReactElement | null => {
+  if (visible) {
     return null;
   }
 

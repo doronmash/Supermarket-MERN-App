@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { CustomButton } from '../utilsComponents/customButon';
 
 interface HeaderProps {
-  userEmail: string;
+  userName: string;
   userId: string;
   userAdminStatus: boolean;
 }
 
-export const Header: React.FC<HeaderProps> = ({ userEmail, userId, userAdminStatus }) => {
+export const Header: React.FC<HeaderProps> = ({ userName, userId, userAdminStatus }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -21,6 +21,17 @@ export const Header: React.FC<HeaderProps> = ({ userEmail, userId, userAdminStat
   const handleHistoryClick = () => {
     navigate('/grocery-payment-history', { state: { userId } });
   };
+
+  const handleButtonHistoryVisable = () => {
+    if (userAdminStatus) {
+      return userAdminStatus;
+    }
+    else {
+      return userName === "Guest";
+    }
+      
+  };
+
 
   return (
     <AppBar position="static"
@@ -38,10 +49,10 @@ export const Header: React.FC<HeaderProps> = ({ userEmail, userId, userAdminStat
             color: '#0a0a0a'  // Change the color to a bright color
           }}
         >
-          Welcome, {userEmail}
+          Welcome, {userName}
         </Typography>
         <Box sx={{ display: 'flex', gap: 2 }}>
-          <CustomButton label="History" onClick={handleHistoryClick} visible={userAdminStatus} />
+          <CustomButton label="History" onClick={handleHistoryClick} visible={handleButtonHistoryVisable()} />
           <CustomButton label="Logout" onClick={handleLogout} />
         </Box>
       </Toolbar>

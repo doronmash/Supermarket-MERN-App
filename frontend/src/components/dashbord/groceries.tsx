@@ -11,11 +11,11 @@ interface GroceryItem {
 
 interface GroceriesProps {
   groceries: GroceryItem[];
-  userEmail: String;
+  userName: String;
   onAddToCart: (item: GroceryItem) => void;
 }
 
-const Groceries: React.FC<GroceriesProps> = ({ groceries, userEmail, onAddToCart }) => {
+const Groceries: React.FC<GroceriesProps> = ({ groceries, userName, onAddToCart }) => {
   return (
     <Box width="100%">
       <Grid container spacing={2}>
@@ -39,7 +39,7 @@ const Groceries: React.FC<GroceriesProps> = ({ groceries, userEmail, onAddToCart
                   color="primary"
                   onClick={() => onAddToCart(grocery)}
                   aria-label="add to cart"
-                  disabled={grocery.quantity === 0 || userEmail === 'Guest'}
+                  disabled={grocery.quantity === 0 || userName === 'Guest'}
                 >
                   <AddIcon />
                 </IconButton>
