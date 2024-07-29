@@ -6,9 +6,10 @@ import { CustomButton } from '../utilsComponents/customButon';
 interface HeaderProps {
   userEmail: string;
   userId: string;
+  userAdminStatus: boolean;
 }
 
-export const Header: React.FC<HeaderProps> = ({ userEmail, userId }) => {
+export const Header: React.FC<HeaderProps> = ({ userEmail, userId, userAdminStatus }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -40,7 +41,7 @@ export const Header: React.FC<HeaderProps> = ({ userEmail, userId }) => {
           Welcome, {userEmail}
         </Typography>
         <Box sx={{ display: 'flex', gap: 2 }}>
-          <CustomButton label="History" onClick={handleHistoryClick} />
+          <CustomButton label="History" onClick={handleHistoryClick} visible={userAdminStatus} />
           <CustomButton label="Logout" onClick={handleLogout} />
         </Box>
       </Toolbar>

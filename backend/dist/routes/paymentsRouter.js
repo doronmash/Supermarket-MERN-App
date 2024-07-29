@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { Router } from "express";
 import Payment from "../models/payment.js";
+import Groceries from "../models/groceries.js";
 const userPayments = Router();
 userPayments.get('/payments/:userId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
@@ -37,6 +38,28 @@ userPayments.post('/save-payment', (req, res) => __awaiter(void 0, void 0, void 
     }
     catch (error) {
         console.error('Error saving payment:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}));
+userPayments.post('/check-availability', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { cartItems } = req.body;
+    try {
+        const unavailableItems = [];
+        for (const item of cartItems) {
+            const grocery = yield Groceries.findOne({ name: item.name });
+            if (!grocery || grocery.quantity < item.quantity) {
+                unavailableItems.push(item);
+            }
+        }
+        if (unavailableItems.length > 0) {
+            res.status(400).json({ message: 'Some items are unavailable', unavailableItems });
+        }
+        else {
+            res.status(200).json({ message: 'All items are available' });
+        }
+    }
+    catch (error) {
+        console.error('Error checking item availability:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 }));

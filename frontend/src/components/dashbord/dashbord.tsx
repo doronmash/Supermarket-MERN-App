@@ -253,9 +253,13 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
     return user ? user._id : '';
   };
 
+  const getUserAdminStatus = () => {
+    return user ? user.admin : false;
+  };
+
   return (
     <Box>
-      <Header userEmail={getUserEmail()} userId={getUserId()} />
+      <Header userEmail={getUserEmail()} userId={getUserId()} userAdminStatus={getUserAdminStatus()} />
       <Box display="flex" justifyContent="center" p={2}>
         <Grid container spacing={2} maxWidth="1200px" width="100%" px={2}>
           {user && user.admin ? (
