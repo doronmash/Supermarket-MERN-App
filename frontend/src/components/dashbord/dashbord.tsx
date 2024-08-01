@@ -1,4 +1,3 @@
-// components/dashbord/dashbord.tsx
 import React, { useState, useEffect } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 import Header from './header';
@@ -7,16 +6,20 @@ import Groceries from './groceries';
 import AdminDashboard from './adminDashboard';
 import axios from 'axios';
 
+// Define the User interface
 interface User {
+  _id: string;
   email: string;
   name: string;
-  admin: Boolean;
+  admin: boolean;
 }
 
+// Define the props for the Dashboard component
 interface DashboardProps {
   user: User | null;
 }
 
+// Dashboard component
 const Dashboard: React.FC<DashboardProps> = ({ user }) => {
   const [cartItems, setCartItems] = useState<{ name: string; quantity: number; price: number }[]>([]);
   const [groceries, setGroceries] = useState<{ name: string; price: number; quantity: number }[]>([]);
@@ -95,23 +98,32 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
     }
   };
 
-  const getUserEmail = () => {
+  const getUserName = () => {
     return user ? user.name : 'Guest';
+  };
+
+  const getUserId = () => {
+    return user ? user._id : '';
+  };
+
+  const getUserAdminStatus = () => {
+    return user ? user.admin : false;
   };
 
   return (
     <Box>
-      <Header userEmail={getUserEmail()} />
+      <Header userName={getUserName()} userId={getUserId()} userAdminStatus={getUserAdminStatus()} />
       <Box display="flex" justifyContent="center" p={2}>
         <Grid container spacing={2} maxWidth="1200px" width="100%" px={2}>
-          {user && user.admin === true ? (
+          {user && user.admin ? (
             <AdminDashboard />
           ) : (
             <>
               <Grid item xs={12} sm={6} display="flex" justifyContent="center">
                 <ShoppingCart
                   cartItems={cartItems}
-                  userEmail={getUserEmail()}
+                  userName={getUserName()}
+                  userId={getUserId()} // Pass userId here
                   onRemoveFromCart={handleRemoveFromCart}
                   onPaymentSuccess={handlePaymentSuccess}
                 />
@@ -129,7 +141,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
                     maxHeight="80vh"
                     overflow="auto"
                   >
-                    <Groceries groceries={groceries} userEmail={getUserEmail()} onAddToCart={handleAddToCart} />
+                    <Groceries groceries={groceries} userName={getUserName()} onAddToCart={handleAddToCart} />
                   </Box>
                 </Box>
               </Grid>

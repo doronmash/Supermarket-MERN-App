@@ -13,12 +13,13 @@ interface CartItem {
 
 interface ShoppingCartProps {
   cartItems: CartItem[];
-  userEmail: String;
+  userName: String;
+  userId: String;
   onRemoveFromCart: (item: { name: string; price: number }) => void;
   onPaymentSuccess: () => void;
 }
 
-const ShoppingCart: React.FC<ShoppingCartProps> = ({ cartItems, userEmail, onRemoveFromCart, onPaymentSuccess }) => {
+const ShoppingCart: React.FC<ShoppingCartProps> = ({ cartItems, userName, userId, onRemoveFromCart, onPaymentSuccess }) => {
   const calculateTotalPrice = () => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
@@ -31,8 +32,14 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ cartItems, userEmail, onRem
 
     if (isConfirmed) {
       try {
+        // Save the payment information
+        await axios.post('http://localhost:5000/save-payment', {
+          userId,
+          cartItems,
+          totalAmount: totalPrice,
+        });
+
         // Update the database with the new quantities
-        console.log("cartItems: ", cartItems)
         await axios.post('http://localhost:5000/update-groceries', { cartItems });
 
         // Notify parent component of payment success
@@ -45,6 +52,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ cartItems, userEmail, onRem
       }
     }
   };
+
   return (
     <Box
       display="flex"
@@ -70,25 +78,17 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ cartItems, userEmail, onRem
           </Box>
         ))}
       </Box>
-      <Box
-        display="flex"
-        justifyContent="center"
-        marginTop="auto"
-      >
-
+      <Box display="flex" justifyContent="center" marginTop="auto">
         <Stack direction="row" spacing={4}>
           <Typography>Total price ${calculateTotalPrice().toFixed(2)}</Typography>
           <IconButton
             color="primary"
             onClick={handlePayment}
-            disabled={userEmail === 'Guest'}
+            disabled={userName === 'Guest'}
           >
             <PaymentIcon />
           </IconButton>
         </Stack>
-
-
-
       </Box>
     </Box>
   );
