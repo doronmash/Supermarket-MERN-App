@@ -4,17 +4,18 @@ import { Button } from '@mui/material';
 interface CustomButtonProps {
   label: string;
   onClick: () => void;
-  visible?: boolean; // Made the prop optional
+  visible?: boolean;
+  variant?: 'contained' | 'text' | 'outlined';
 }
 
-export const CustomButton: FC<CustomButtonProps> = ({ label, onClick, visible = false }): ReactElement | null => {
+export const CustomButton: FC<CustomButtonProps> = ({ label, onClick, visible = false, variant = 'outlined' }): ReactElement | null => {
   if (visible) {
     return null;
   }
 
   return (
     <Button
-      variant="contained"
+      variant={ variant }
       sx={{
         mt: 2,
         backgroundColor: '#34ebd6',
