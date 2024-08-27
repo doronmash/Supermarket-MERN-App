@@ -27,29 +27,34 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ cartItems, userName, userId
   const handlePayment = async () => {
     const totalPrice = calculateTotalPrice();
 
-    // Display confirmation dialog
-    const isConfirmed = window.confirm(`Total price is $${totalPrice.toFixed(2)}. Do you want to proceed with payment?`);
+    if (totalPrice > 0) {
+      // Display confirmation dialog
+      const isConfirmed = window.confirm(`Total price is $${totalPrice.toFixed(2)}. Do you want to proceed with payment?`);
 
-    if (isConfirmed) {
-      try {
-        // Save the payment information
-        await axios.post('http://localhost:5000/save-payment', {
-          userId,
-          cartItems,
-          totalAmount: totalPrice,
-        });
+      if (isConfirmed) {
+        try {
+          // Save the payment information
+          await axios.post('http://localhost:5000/save-payment', {
+            userId,
+            cartItems,
+            totalAmount: totalPrice,
+          });
 
-        // Update the database with the new quantities
-        await axios.post('http://localhost:5000/update-groceries', { cartItems });
+          // Update the database with the new quantities
+          await axios.post('http://localhost:5000/update-groceries', { cartItems });
 
-        // Notify parent component of payment success
-        onPaymentSuccess();
+          // Notify parent component of payment success
+          onPaymentSuccess();
 
-        alert('Payment successful!');
-      } catch (err) {
-        console.error('Error updating groceries:', err);
-        alert('Failed to update groceries');
+          alert('Payment successful!');
+        } catch (err) {
+          console.error('Error updating groceries:', err);
+          alert('Failed to update groceries');
+        }
       }
+    }
+    else {
+      alert('Shopping cart is empty');
     }
   };
 
