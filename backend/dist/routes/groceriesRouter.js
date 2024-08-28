@@ -24,7 +24,7 @@ userGroceries.get('/groceries', (req, res) => __awaiter(void 0, void 0, void 0, 
 // Define a route to update a grocery
 userGroceries.put('/groceries/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const { name, price, quantity } = req.body;
+    const { name, price, quantity, category } = req.body;
     try {
         const grocery = yield Groceries.findById(id);
         if (!grocery) {
@@ -33,6 +33,7 @@ userGroceries.put('/groceries/:id', (req, res) => __awaiter(void 0, void 0, void
         grocery.name = name || grocery.name;
         grocery.price = price || grocery.price;
         grocery.quantity = quantity || grocery.quantity;
+        grocery.category = category || grocery.category;
         yield grocery.save();
         res.status(200).json(grocery);
     }
@@ -43,8 +44,9 @@ userGroceries.put('/groceries/:id', (req, res) => __awaiter(void 0, void 0, void
 }));
 // Define a route to add a new grocery
 userGroceries.post('/groceries', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, price, quantity } = req.body;
-    if (!name || price == null || quantity == null) {
+    console.log(req.body);
+    const { name, price, quantity, category } = req.body;
+    if (!name || price == null || quantity == null || category == null) {
         return res.status(400).json({ message: 'Name, price, and quantity are required' });
     }
     try {
@@ -54,7 +56,8 @@ userGroceries.post('/groceries', (req, res) => __awaiter(void 0, void 0, void 0,
             return res.status(400).json({ message: 'A grocery with the same name already exists' });
         }
         // Add the new grocery
-        const newGrocery = new Groceries({ name, price, quantity });
+        const newGrocery = new Groceries({ name, price, quantity, category });
+        console.log(newGrocery);
         yield newGrocery.save();
         res.status(201).json(newGrocery);
     }
