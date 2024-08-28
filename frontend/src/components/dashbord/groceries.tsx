@@ -7,19 +7,30 @@ interface GroceryItem {
   name: string;
   price: number;
   quantity: number;
+  category: string;
 }
 
 interface GroceriesProps {
   groceries: GroceryItem[];
+  selectedCategory: string;
   userName: String;
   onAddToCart: (item: GroceryItem) => void;
 }
 
-const Groceries: React.FC<GroceriesProps> = ({ groceries, userName, onAddToCart }) => {
+const Groceries: React.FC<GroceriesProps> = ({ groceries, selectedCategory, userName, onAddToCart }) => {
+  const filteredGroceries = groceries.filter((grocery) =>
+    selectedCategory ? grocery.category === selectedCategory : true
+  );
+
   return (
     <Box width="100%">
+      <Box display="flex" flexDirection="column" alignItems="center" width="100%">
+        <Typography variant="h4" gutterBottom>
+          Available Groceries
+        </Typography>
+      </Box>
       <Grid container spacing={2}>
-        {groceries.map((grocery, index) => (
+        {filteredGroceries.map((grocery, index) => (
           <Grid item xs={12} sm={6} md={3} key={index}>
             <Box
               display="flex"
