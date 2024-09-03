@@ -1,7 +1,6 @@
 import React, { FC, useState } from 'react';
 import { Stack, Typography, TextField, FormControl, FormControlLabel, Radio, RadioGroup, FormLabel } from '@mui/material';
 import CustomButton from '../utilsComponents/customButon';
-import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast, Id } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
@@ -20,7 +19,6 @@ const SignupForm: FC<SignupFormProps> = ({ onSignupSuccess }) => {
     setAdminRole((event.target as HTMLInputElement).value);
   };
 
-
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
@@ -34,7 +32,6 @@ const SignupForm: FC<SignupFormProps> = ({ onSignupSuccess }) => {
   };
 
   let toastId: Id;
-  const navigate = useNavigate();
 
   const handleSignup = async () => {
     toast.dismiss(toastId);

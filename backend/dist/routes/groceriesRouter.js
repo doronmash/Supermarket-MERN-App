@@ -44,7 +44,6 @@ userGroceries.put('/groceries/:id', (req, res) => __awaiter(void 0, void 0, void
 }));
 // Define a route to add a new grocery
 userGroceries.post('/groceries', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
     const { name, price, quantity, category } = req.body;
     if (!name || price == null || quantity == null || category == null) {
         return res.status(400).json({ message: 'Name, price, and quantity are required' });
@@ -57,7 +56,6 @@ userGroceries.post('/groceries', (req, res) => __awaiter(void 0, void 0, void 0,
         }
         // Add the new grocery
         const newGrocery = new Groceries({ name, price, quantity, category });
-        console.log(newGrocery);
         yield newGrocery.save();
         res.status(201).json(newGrocery);
     }

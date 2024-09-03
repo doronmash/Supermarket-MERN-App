@@ -18,7 +18,6 @@ userRouter.get('/users', async (req, res) => {
 
 // Define a route to add a new user
 userRouter.post('/signup', async (req, res) => {
-  console.log('Request body:', req.body);
   const { name, email, password, adminRole } = req.body;
 
   if (!email || !password) {

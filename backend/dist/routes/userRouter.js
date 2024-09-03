@@ -23,7 +23,6 @@ userRouter.get('/users', (req, res) => __awaiter(void 0, void 0, void 0, functio
 }));
 // Define a route to add a new user
 userRouter.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('Request body:', req.body);
     const { name, email, password, adminRole } = req.body;
     if (!email || !password) {
         return res.status(400).json({ message: 'Email and password are required' });

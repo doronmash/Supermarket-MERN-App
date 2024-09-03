@@ -1,6 +1,6 @@
 // components/Dashboard.tsx
 import React, { useState, useEffect } from 'react';
-import { Box, Grid, Typography, TextField, IconButton, InputAdornment } from '@mui/material';
+import { Box, Grid, TextField, IconButton, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import Header from './header';
 import ShoppingCart from './shoppingCart';
